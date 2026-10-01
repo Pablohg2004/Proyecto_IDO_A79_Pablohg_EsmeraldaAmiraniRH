@@ -1,0 +1,139 @@
+UNIVERSIDAD AUTÓNOMA DEL ESTADO DE MÉXICO.
+Centro Universitario UAEM Valle de México.
+Investigación de Operaciones Determinísticas.
+Profesor: Galindo López Julio César.
+Actividad: Resumen del PDF y los videos mandados.
+Integrantes:
+- Hernández García Pablo.
+- Rodríguez Hernández Esmeralda Amairani.
+Fecha: 30-Septiembre-2026.
+
+---
+
+PDF: Investigación de operaciones.
+¿Para qué nos sirve la investigación de operación en la actuaria?
+Nos sirve para diversas cosas entre ellas a realizar un buen trabajo para tomar decisiones sobre la repartición de algo ya sea para repartir las carnes, verduras, semillas, presupuestos, entre muchas cosas más esto para tener datos y poder basarnos en eso y tomar una decisión que beneficie a quien este pidiendo esta ayuda como las empresas o negocios.
+
+¿Cómo abordarlo?
+Para abordarlo primero tenemos que conocer cuál es el problema y que queremos hacer o el que esperamos de esto, antes de hacer cualquier cosa o tomar una mala decisión. 
+Tenemos que saber qué decisión tomar y que vamos a usar para resolverlo, definir una variable para todas y cada una de las decisiones desconocidas para después ver si maximizamos o minizamos costos de algo para poder obtener un resultado.
+Podríamos hacer un modelo lineal para que esta sea multiplicada por una constante y elevada a la primera potencia esto para poder resolver justamente nuestro problema de manera que nos garantice lo que queremos obtener, las matrices nos ayudan a resolver problemas de organización y poder guardar toda nuestra información.
+Para tener una buena matriz que nos ayude es importante estructurarla de manera correcta para preparar de manera adecuada un modelo simplex este nos ayuda para mezclar desigualdades de distintos tipos nuestro propósito con este método simplex es mostrar como podemos rescribir cualquier desigualdad que tengamos a una igualdad sin cambiar nuestro problema original de igual manera tenemos que tener un orden para que funcione de manera correcta.
+Para poder leer nuestra tabla simplex para maximizar, para minimizar tenemos que pasar todas nuestras restricciones a igualdades y hacer nuestras tablas finales con base a eso ya que con esas herramientas podremos recorrer desde un principio a fin nuestro problema.  Nuestro algoritmo simplex como rutina es trabajar en algo que podamos explicar sin necesidad de repasar todo paso a paso. 
+Sin embargo no todos nuestros problemas van a tener una única solución por eso tenemos que considerar lo siguiente: optimización múltiplo, degeneración, no factibilidad, no acotación etc. Antes de tomar una decisión final tenemos que checar nuestras variables y no confiarnos solo por que ya se detuvo nuestro programa.
+
+Probabilidad Clásica y Simulación en Python
+1. Marco Teórico: Modelo Clásico de Probabilidad (Laplaciano)
+En este apartado sintetizo las bases teóricas de la probabilidad clásica y las hipótesis fundamentales requeridas para estructurar experimentos aleatorios:
+- Experimento Aleatorio: Un suceso (ya sea provocado o natural) cuyos resultados son inciertos y no necesariamente se repiten bajo las mismas condiciones. Ejemplos sencillos incluyen el lanzamiento de un dado o una moneda; mientras que ejemplos más complejos involucran la fluctuación de precios de una acción en el tiempo.
+- Espacio Muestral ($\Omega$): Es el conjunto de todos los posibles resultados de un experimento aleatorio. Se denota habitualmente con la letra griega Omega ($\Omega$).
+
+Hipótesis del Modelo Laplaciano
+1. Finitud: La cardinalidad del espacio muestral $\Omega$ es finita, lo que nos permite contar formalmente sus elementos.
+2. Tratamiento de Conjuntos: Los eventos se abordan de la misma forma que los conjuntos matemáticos. Por ejemplo, la intersección representa que ocurran ambos eventos ('A y B'), mientras que la unión representa que ocurra al menos uno ('A o B').
+3. Fórmula de Laplace: En el modelo clásico, la probabilidad de un evento $A$ se calcula dividiendo el número de casos favorables entre el número total de casos posibles en $\Omega$: $P(A) = \frac{|A|}{|\Omega|}$.
+
+Propiedades Axiomáticas Básicas
+- Evento Seguro: La probabilidad del evento seguro es $P(\Omega) = 1$.
+- Evento Imposible: La probabilidad del evento imposible es $P(\emptyset) = 0$.
+- Acotación: Para cualquier evento $A$, la probabilidad está acotada en el intervalo $[0, 1]$.
+- Aditividad Finita: Si $A$ y $B$ son eventos disjuntos (intersección vacía), la probabilidad de su unión es la suma de sus probabilidades individuales: $P(A \cup B) = P(A) + P(B)$.
+
+2. Caso Práctico: Lanzamiento de Dos Dados
+Para aterrizar la teoría, analizo el experimento del lanzamiento de dos dados honestos e independientes:
+- Condiciones del Experimento: Que los dados sean honestos significa que cada cara tiene la misma probabilidad de salir ($1/6$). Que sean independientes implica que el resultado de uno no afecta al otro.
+- Estructura del Espacio Muestral: Cada resultado se modela como un par ordenado $(i, j)$, donde '$i$' es el resultado del primer dado y '$j$' el del segundo, con ambos valores dentro del rango del 1 al 6.
+- Cardinalidad Total: Al visualizar el espacio muestral como una matriz de 6 filas por 6 columnas (producto cartesiano), obtenemos un total de $|\Omega| = 6^2 = 36$ resultados posibles.
+
+3. Implementación y Simulación en Python
+Aquí detallo cómo llevé a cabo la construcción computacional del espacio muestral y los métodos para iterar sobre él:
+- Manejo de Rangos e Iteradores:
+  - Generación de Rangos: Para representar los valores de las caras de un dado (1 a 6) se utiliza range(1, 7), recordando que en Python el límite superior no es incluyente.
+  - Uso de itertools: Se utiliza el módulo estándar itertools para construir iteradores de forma rápida y eficiente sin sobrecargar la memoria.
+  - Producto Cartesiano: La función itertools.product(range(1, 7), repeat=2) permite calcular el producto cartesiano del espacio muestral. Para obtener los elementos explícitos como conjunto se aplica set().
+- Construcción con Comprensión de Listas:
+  Para mantener un orden visual claro y una estructura más manejable, resulta óptimo construir la lista mediante List Comprehension:
+  Omega = [(i, j) for i in range(1, 7) for j in range(1, 7)]
+  print('Espacio muestral:', Omega)
+  print('Cardinalidad:', len(Omega))  # Retorna 36
+
+4. Filtrado de Eventos y Cálculo de Probabilidades
+Definición y evaluación de eventos específicos basados en la suma de las caras de los dados:
+- Función para Eventos de Suma $S_n$:
+  Definí la función sn(n) para filtrar las combinaciones cuyas coordenadas sumen exactamente '$n$':
+  def sn(n):
+      return [(i, j) for i in range(1, 7) for j in range(1, 7) if i + j == n]
+- Análisis de Resultados de la Función:
+  - Eventos Imposibles: Para $n = 0$ o $n = 1$, la función retorna una lista vacía [], ya que el valor mínimo posible al sumar dos dados es 2 ($1 + 1$). Del mismo modo, para $n > 12$ la lista es vacía.
+  - Rango Válido de Sumas: Los valores válidos de la suma $n$ abarcan estrictamente el rango de 2 a 12.
+- Ejemplos de Cálculo de Probabilidad:
+  - Probabilidad de que la suma sea 9: Casos favorables: (3,6), (4,5), (5,4), (6,3) [4 elementos]. Probabilidad: $P(S_9) = \frac{4}{36} = \frac{1}{9} \approx 0.111$ ($11.11\%$).
+  - Probabilidad de obtener doble seis (suma 12): Caso favorable único: (6,6) [1 elemento]. Probabilidad: $P(S_{12}) = \frac{1}{36} \approx 0.027$ ($2.78\%$).
+- Verificación de Cierre: Una regla de validación clave es que la suma de las probabilidades de todos los eventos disjuntos que componen el espacio muestral debe ser exactamente 1 (o $100\%$).
+
+Probabilidad en Python (Parte 2)
+1. Experimento Aleatorio de Tres Monedas e Intersección de Eventos
+En esta primera parte del video se analiza el experimento aleatorio consistente en lanzar de manera independiente tres monedas honestas o lanzar la misma moneda tres veces consecutivas.
+- Espacio muestral ($\Omega$): Se obtiene realizando el producto cartesiano del conjunto ['A', 'S'] repetido 3 veces mediante la función itertools.product(['A', 'S'], repeat=3). La cardinalidad total del espacio muestral es $|\Omega| = 2^3 = 8$ resultados posibles.
+- Definición de eventos posicionales: Se define $A_1$ como el evento donde cae águila en el primer lanzamiento, $A_2$ en el segundo y $A_3$ en el tercero. El conjunto $A_1$ restringe el espacio de estados a 4 elementos cuya primera coordenada es 'A'.
+- Representación como intersección: El evento $E$ en el que las tres monedas resulten águila se expresa explícitamente como la intersección de estos eventos posicionales: $E = A_1 \cap A_2 \cap A_3$.
+- Implementación en Python: La intersección se obtiene en Python mediante el método .intersection() entre conjuntos o de forma equivalente contando la frecuencia del carácter 'A' en cada tupla con .count('A') == 3.
+- Cálculo clásico de probabilidad: Al ser $E$ un evento compuesto por un único elemento ('A', 'A', 'A'), su probabilidad bajo el modelo clásico es $P(E) = \frac{1}{|\Omega|} = \frac{1}{8} = 0.125$.
+
+2. Probabilidad Condicional y Reducción del Espacio de Estados
+Cuando se dispone de información previa sobre la ocurrencia de un evento, se aplica el concepto de probabilidad condicional.
+- Formulación matemática: La probabilidad de que suceda un evento $E$ dado que ha ocurrido el evento $F$ (con $P(F) > 0$) se define formalmente como $P(E \mid F) = \frac{P(E \cap F)}{P(F)}$.
+- Reducción del espacio de estados: El evento condición $F$ pasa a actuar como el nuevo espacio muestral restringido.
+- Águila en las tres monedas dado águila en el primer lanzamiento: Al evaluar $P(E \mid A_1)$, el espacio de estados se reduce a los 4 elementos de $A_1$. La probabilidad condicional resulta en $P(E \mid A_1) = \frac{1/8}{4/8} = \frac{1}{4} = 0.25$, lo que demuestra cómo la información adicional incrementa la probabilidad del evento.
+- Sol en la segunda moneda dado águila en la primera: Para el evento $S_2$ (sol en el segundo lanzamiento), la probabilidad condicional $P(S_2 \mid A_1)$ es igual a $1/2$.
+- Axioma del complemento: Dado que $S_2$ representa el complemento del evento $A_2$, se verifica en Python la regla del complemento para probabilidades condicionales: $P(S_2 \mid A_1) = 1 - P(A_2 \mid A_1) = 1 - \frac{1}{2} = \frac{1}{2}$.
+
+3. Modelo Frecuentista y Simulación de Monedas Cargadas
+Cuando se trabaja con monedas injustas o cargadas, la cardinalidad simple de conjuntos no permite calcular probabilidades directamente. En su lugar, se recurre a la perspectiva frecuentista.
+- Definición frecuentista: La probabilidad de un evento se define como la proporción de veces que ocurre el evento dividida entre el número total de ensayos cuando este número es sumamente elevado.
+- Números pseudoaleatorios con random: Mediante la librería random, la máquina genera valores numéricos pseudoaleatorios continuos distribuidos uniformemente en el intervalo $[0, 1]$.
+- Asignación de carga ($p$): Se define un umbral $p$ previamente. Si el valor pseudoaleatorio generado por la máquina resulta menor que $p$, se registra como 'sol'; de lo contrario, se registra como 'águila'.
+
+4. Método de Monte Carlo y Ley de los Grandes Números
+Para estimar empíricamente probabilidades en experimentos cargados, se implementa el Método de Monte Carlo.
+- Algoritmo de simulación Monte Carlo: Se especifica una carga $p$ (por ejemplo, $p = 0.8$ o $p = 0.3$). Se realizan $M$ simulaciones (por ejemplo, $M = 1000$) compuestas por $N$ lanzamientos de moneda cada una. En cada simulación se registra la frecuencia relativa del evento de interés y se calcula el promedio acumulado dividiendo la suma total de frecuencias empíricas entre $M$.
+- Fundamento teórico (Ley de los Grandes Números): La convergencia de la simulación hacia el parámetro teórico $p$ fijado inicialmente es consecuencia directa del Teorema de Bernoulli y de la Ley de los Grandes Números. Al promediar un número suficientemente elevado de ensayos Bernoulli independientes, la media empírica se aproxima exactamente al valor esperado de la distribución.
+
+Investigación de Operaciones (notas)
+La idea general:
+Todos los días alguien tiene que decidir cómo repartir cosas que no alcanzan: horas de trabajo de una máquina, materiales, dinero, personal. Casi nunca hay una sola forma de hacerlo y rara vez es obvio cuál es la mejor. Esta materia nació en la Segunda Guerra Mundial, cuando se necesitaba decidir cómo repartir recursos de la mejor manera posible. La idea es convertir un problema real en uno de matemáticas, resolverlo y luego volver a traducir la respuesta a una decisión de verdad. Por eso los apuntes insisten en entender qué significa cada número y no solo en hacer las cuentas.
+
+Cómo armar el problema:
+Armar el problema es responder tres preguntas: qué puedo decidir, qué quiero lograr (ganar lo más posible o gastar lo menos posible) y qué límites no puedo pasar. Los pasos son:
+1. Decir qué hay que decidir y en qué unidades.
+2. Ponerle una letra a cada cosa que se decide.
+3. Escribir qué se quiere maximizar o minimizar.
+4. Escribir cada límite como una desigualdad o una igualdad.
+5. Aclarar que no se pueden producir cantidades negativas.
+6. Revisar que las unidades y el resultado tengan sentido.
+El último paso es el que más se olvida y el que más errores evita. Además, todo debe ser "lineal", es decir, sin multiplicar variables entre sí ni elevarlas a potencias. Eso es lo que permite resolver el problema con un método seguro.
+
+Matrices:
+Las matrices son tablas de números que sirven para ordenar la información en lugar de escribir ecuación por ecuación.
+- Tamaños: para sumar o restar, las tablas deben tener el mismo tamaño. Para multiplicar, el número de columnas de la primera debe coincidir con el de filas de la segunda.
+- Construirlas: si te dan una fórmula para cada casilla, vas llenando fila por fila, con orden.
+- Sistemas de ecuaciones: se pueden resumir en una sola expresión, separando los números que acompañan a las incógnitas, las incógnitas y los resultados.
+- Ejercicios: armar matrices con una regla, multiplicarlas y trabajar con un tipo especial llamado antisimétrico.
+
+Preparar el problema para el método simplex:
+El método simplex es el procedimiento que resuelve estos problemas, pero solo acepta igualdades. Por eso se agregan unas variables extra, y cada una cuenta algo:
+- Holgura: lo que sobra de un recurso. Si vale cero, ese recurso se gastó completo.
+- Exceso: cuánto se pasó uno de un mínimo exigido.
+- Artificial: una variable de apoyo para poder arrancar. No representa nada real y debe quedar en cero al terminar.
+Después se llena una tabla y se va mejorando la respuesta paso a paso. En cada paso se elige qué variable conviene meter y cuál sacar, hasta que ya no se pueda mejorar.
+
+Los dos ejemplos resueltos:
+1. Gastar lo menos posible: Hay que minimizar un costo con tres condiciones: la suma de dos productos debe ser 5000, uno de ellos no puede pasar de 1500 y el otro debe ser al menos 750. El resultado es 1500 unidades del primero y 3500 del segundo, con un costo mínimo de 37 000.
+2. Ganar lo más posible: Una empresa fabrica dos productos y tiene límites de horas de máquina, materia prima y demanda del mercado. La mejor decisión es producir unas 533 unidades del producto A y unas 333 del B, para una ganancia de alrededor de 4133. Con eso se usan todas las horas y toda la materia prima, y quedan sin aprovechar unas 167 unidades de lo que el mercado podía comprar de A. Si los productos solo se pueden fabricar en unidades completas, no basta con redondear: hay que volver a revisar que todo siga cumpliendo los límites.
+
+Cuando las cosas no salen "normales":
+Algunos problemas no tienen una respuesta única y limpia:
+- Varias respuestas igual de buenas: hay distintas combinaciones que dan la misma ganancia.
+- Empates que atoran el método: hay que tener cuidado para no dar vueltas en círculo.
+- Sin solución: las condiciones se contradicen y no se pueden cumplir todas a la vez.
+- Sin límite: se puede crecer para siempre sin romper ninguna condición.
